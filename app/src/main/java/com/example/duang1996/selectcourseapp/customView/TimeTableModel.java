@@ -111,7 +111,6 @@ public class TimeTableModel {
     public TimeTableModel(int id, int startnum, int endnum, int week,
                           String starttime, String endtime, String name, String teacher,
                           String classroom, String weeknum) {
-        super();
         this.id = id;
         this.startnum = startnum;
         this.endnum = endnum;

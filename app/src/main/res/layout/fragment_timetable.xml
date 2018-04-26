@@ -7,18 +7,19 @@
     android:orientation="vertical"
     tools:context="com.example.duang1996.selectcourseapp.fragement.TimetableFragment">
 
-<ScrollView
-    android:id="@+id/main_scrollview"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="false">
+    <ScrollView
+        android:id="@+id/main_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="false">
 
-    <com.shallcheek.timetale.TimeTableView
+    <com.example.duang1996.selectcourseapp.customView.TimeTableView
         android:id="@+id/main_timetable_ly"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
-    </com.shallcheek.timetale.TimeTableView>
+        android:orientation="vertical">
+    </com.example.duang1996.selectcourseapp.customView.TimeTableView>
+
 </ScrollView>
 
 </LinearLayout>

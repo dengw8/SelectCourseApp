@@ -34,10 +34,10 @@ public class TimeTableView extends LinearLayout {
             R.drawable.select_label_jiu, R.drawable.select_label_sss,
             R.drawable.select_label_se, R.drawable.select_label_yiw,
             R.drawable.select_label_sy, R.drawable.select_label_yiwu,
-            R.drawable.select_label_yi, R.drawable.select_label_wuw};
+            R.drawable.select_label_yi, R.drawable.select_label_wuw };
     private final static int START = 0;
     //最大节数
-    public final static int MAXNUM = 12;
+    public final static int MAXNUM = 11;
     //显示到星期几
     public final static int WEEKNUM = 7;
     /**
