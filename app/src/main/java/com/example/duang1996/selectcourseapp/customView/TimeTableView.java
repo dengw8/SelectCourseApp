@@ -35,7 +35,9 @@ public class TimeTableView extends LinearLayout {
             R.drawable.select_label_se, R.drawable.select_label_yiw,
             R.drawable.select_label_sy, R.drawable.select_label_yiwu,
             R.drawable.select_label_yi, R.drawable.select_label_wuw };
+
     private final static int START = 0;
+
     //最大节数
     public final static int MAXNUM = 11;
     //显示到星期几
@@ -55,7 +57,7 @@ public class TimeTableView extends LinearLayout {
      */
     private LinearLayout mHorizontalWeekLayout;
     private LinearLayout mVerticalWeekLaout;
-    private String[] mWeekTitle = {"一", "二", "三", "四", "五", "六", "七"};
+    private String[] mWeekTitle = {"一", "二", "三", "四", "五", "六", "日"};
     public static String[] colorStr = new String[20];
     int colorNum = 0;
     private List<TimeTableModel> mListTimeTable = new ArrayList<TimeTableModel>();

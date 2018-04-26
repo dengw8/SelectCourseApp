@@ -7,19 +7,37 @@
     android:orientation="vertical"
     tools:context="com.example.duang1996.selectcourseapp.fragement.TimetableFragment">
 
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/tab_active"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:id="@+id/person"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_person_grey_300_24dp" />
+
+    </RelativeLayout>
+
     <ScrollView
         android:id="@+id/main_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="false">
 
-    <com.example.duang1996.selectcourseapp.customView.TimeTableView
-        android:id="@+id/main_timetable_ly"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-    </com.example.duang1996.selectcourseapp.customView.TimeTableView>
+        <com.example.duang1996.selectcourseapp.customView.TimeTableView
+            android:id="@+id/main_timetable_ly"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        </com.example.duang1996.selectcourseapp.customView.TimeTableView>
 
-</ScrollView>
+    </ScrollView>
 
 </LinearLayout>

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.duang1996.selectcourseapp.R;
 
@@ -23,6 +24,8 @@ public class HomeFragment extends Fragment {
     private List<View> viewsList;
 
     private View mView;
+
+    private TextView title;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -68,6 +71,9 @@ public class HomeFragment extends Fragment {
         }
         bannerView.startLoop(true);
         bannerView.setViewList(viewsList);
+
+        title = mView.findViewById(R.id.tab1).findViewById(R.id.title);
+        title.setText("主页");
     }
 
     @Override

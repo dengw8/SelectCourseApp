@@ -5,7 +5,9 @@
     <color name="colorAccent">#FF4081</color>
     <color name="login_title">#8BC34A</color>
 
+    <color name="white">#FFFFFF</color>
     <color name="tab_active">#8BC34A</color>
+    <color name="course_type_non">#8BC34A</color>
 
     <color name="black_1">#333333</color>
     <color name="grey_300">#E0E0E0</color>

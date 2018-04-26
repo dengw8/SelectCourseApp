@@ -7,17 +7,15 @@ import java.io.File;
  */
 
 public class Student {
-    private String netId;
-    private String password;
-    private int id;
-    private String name;
-    private boolean sex;
-    private int nation;
-    private int college;
-    private int major;
-    private File avatar;
-    private String mobile;
-    private int grade;
+    private String netId;        // NetId
+    private String password;     // 登录密码
+    private String id;            // 学号
+    private String name;          // 姓名
+    private boolean sex;         // 性别
+    private int college;         // 学院
+    private int major;            // 专业
+    private String mobile;        // 手机号
+    private int grade;            // 入学年份（根据年份确定大几）
 
     public Student() {}
 
@@ -33,10 +31,10 @@ public class Student {
     public String getPassword() {
         return password;
     }
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
-    public int getId() {
+    public String getId() {
         return id;
     }
     public void setName() {
@@ -44,12 +42,6 @@ public class Student {
     }
     public String getName() {
         return name;
-    }
-    public void setNation(int nation) {
-        this.nation = nation;
-    }
-    public int getNation() {
-        return nation;
     }
     public void setSex(boolean sex) {
         this.sex = sex;
@@ -68,12 +60,6 @@ public class Student {
     }
     public int getMajor() {
         return major;
-    }
-    public void setAvatar(File avatar) {
-        this.avatar = avatar;
-    }
-    public File getAvatar() {
-        return avatar;
     }
     public void setMobile(String mobile) {
         this.mobile = mobile;

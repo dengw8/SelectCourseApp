@@ -31,10 +31,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         //隐藏顶部标题栏
+
         if (getSupportActionBar() != null){
             getSupportActionBar().hide();
         }
-
         //空间初始化
         initViews();
 
