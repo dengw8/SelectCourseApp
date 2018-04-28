@@ -19,7 +19,7 @@
         android:paddingBottom="2dip"
         android:paddingTop="7dip"
         android:scaleType="matrix"
-        android:text="主页"
+        android:text="公告"
         android:textSize="15sp"/>
     <TextView
         android:id="@+id/btn_select"

@@ -1,20 +1,24 @@
 package com.example.duang1996.selectcourseapp.fragement;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.duang1996.selectcourseapp.PersonDetailActivity;
 import com.example.duang1996.selectcourseapp.R;
 
 
 public class Select_ResultFragment extends Fragment implements  View.OnClickListener {
     private TextView title;
-
+    private ImageView person;
     private View mView;
 
     private TextView general_com;
@@ -64,15 +68,19 @@ public class Select_ResultFragment extends Fragment implements  View.OnClickList
         switch (v.getId()) {
             case R.id.general_compulsory:
                 setTextViewState(general_com, getLocalColor(R.color.course_type_non), getLocalColor(R.color.white));
+                Toast.makeText(getContext(), "你选择了公必", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.general_elective:
                 setTextViewState(general_elec, getLocalColor(R.color.course_type_non), getLocalColor(R.color.white));
+                Toast.makeText(getContext(), "你选择了公选", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.major_compulsory:
                 setTextViewState(major_com, getLocalColor(R.color.course_type_non), getLocalColor(R.color.white));
+                Toast.makeText(getContext(), "你选择了专必", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.major_elective:
                 setTextViewState(major_elec, getLocalColor(R.color.course_type_non), getLocalColor(R.color.white));
+                Toast.makeText(getContext(), "你选择了专选", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -80,6 +88,15 @@ public class Select_ResultFragment extends Fragment implements  View.OnClickList
     private void initViews() {
         title = mView.findViewById(R.id.tab3).findViewById(R.id.title);
         title.setText("已选课程");
+
+        person = mView.findViewById(R.id.tab3).findViewById(R.id.person);
+        person.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PersonDetailActivity.class);
+                startActivity(intent);
+            }
+        });
 
         general_com = mView.findViewById(R.id.general_compulsory);
         general_elec = mView.findViewById(R.id.general_elective);

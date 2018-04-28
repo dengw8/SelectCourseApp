@@ -30,6 +30,19 @@ public class Course {
 
     public Course() {}
 
+    public Course(String name, int teacherId, int point, int type, int day1, int start1, int end1, int day2, int start2, int end2) {
+        this.name =name;
+        this.teacherId = teacherId;
+        this.credit = point;
+        this.type =type;
+        this.day1 =day1;
+        this.start1 = start1;
+        this.end1 = end1;
+        this.day2 = day2;
+        this.start2 = start2;
+        this.end2 = end2;
+    }
+
     public void setId(String id) {
         this.id = id;
     }

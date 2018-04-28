@@ -38,6 +38,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
+
+                //finish掉当前活动，是在主页面按返回键不再返回到登录活动
+                finish();
             }
         });
     }

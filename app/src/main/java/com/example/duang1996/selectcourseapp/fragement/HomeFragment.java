@@ -1,6 +1,7 @@
 package com.example.duang1996.selectcourseapp.fragement;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,8 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.example.duang1996.selectcourseapp.PersonDetailActivity;
 import com.example.duang1996.selectcourseapp.R;
 
 import com.oragee.banners.BannerView;
@@ -18,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
+    private ImageView person;
 
     private BannerView bannerView;
     private int[] imgIds = {R.drawable.abc, R.drawable.def};
@@ -26,6 +31,8 @@ public class HomeFragment extends Fragment {
     private View mView;
 
     private TextView title;
+
+    private ListView listView;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -61,6 +68,7 @@ public class HomeFragment extends Fragment {
 
     private void initBanner() {
         bannerView = mView.findViewById(R.id.banner_home);
+
         viewsList = new ArrayList<>();
         for (int i = 0; i < imgIds.length; i++) {
             ImageView imageView = new ImageView(getContext());
@@ -73,7 +81,16 @@ public class HomeFragment extends Fragment {
         bannerView.setViewList(viewsList);
 
         title = mView.findViewById(R.id.tab1).findViewById(R.id.title);
-        title.setText("主页");
+        title.setText("公告栏");
+
+        person = mView.findViewById(R.id.tab1).findViewById(R.id.person);
+        person.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PersonDetailActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -150,22 +150,13 @@
             android:text="上课时间"
             android:textSize="12sp"
             android:textColor="#000000" />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="操作"
-            android:textSize="12sp"
-            android:textColor="#000000" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/grey_300" />
 
-
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/selectable_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
