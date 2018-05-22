@@ -7,12 +7,12 @@ import java.io.File;
  */
 
 public class Student {
-    private String netId;        // NetId
-    private String password;     // 登录密码
-    private String id;            // 学号
-    private String name;          // 姓名
-    private boolean sex;         // 性别
-    private int college;         // 学院
+    private String netId;          // NetId
+    private String password;       // 登录密码
+    private String id;             // 学号
+    private String name;           // 姓名
+    private boolean sex;          // 性别
+    private int college;          // 学院
     private int major;            // 专业
     private String mobile;        // 手机号
     private int grade;            // 入学年份（根据年份确定大几）

@@ -25,7 +25,7 @@ public class HomeFragment extends Fragment {
     private ImageView person;
 
     private BannerView bannerView;
-    private int[] imgIds = {R.drawable.abc, R.drawable.def};
+    private int[] imgIds = {R.drawable.sysu1, R.drawable.sysu2, R.drawable.sysu3};
     private List<View> viewsList;
 
     private View mView;
