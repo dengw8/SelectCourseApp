@@ -38,13 +38,17 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             name = view.findViewById(R.id.name);
             teacher = view.findViewById(R.id.teacher);
             point = view.findViewById(R.id.point);
-            type = view.findViewById(R.id.type);
+            type = view.findViewById(R.id.state);
             time = view.findViewById(R.id.time);
         }
     }
 
     public CourseAdapter(List<Map<String, Object>> list) {
         itemList = new ArrayList<>();
+        itemList = list;
+    }
+
+    public void setDataList(List<Map<String, Object>> list) {
         itemList = list;
     }
 

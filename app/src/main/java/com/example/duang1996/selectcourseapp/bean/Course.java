@@ -1,47 +1,31 @@
 package com.example.duang1996.selectcourseapp.bean;
 
+import cn.bmob.v3.BmobObject;
+
 /**
  * Created by duang1996 on 2018/4/23.
  */
 
-public class Course {
-    private String id;           // 课程id（课程号）
-    private String name;        // 课程名称
-    private int credit;        // 课程学分
-    private int type;          // 课程类别（1.公必 2.公选 3.专必 4.专选 5.限选）
-    private int teacherId;     // 老师Id
-    private int capacity;      // 课容量
-    private int cover;         // 课程已选人数
-    private int year;           // 学年度（计开始的年份， 如：2017代表2017-2018学年）
-    private int term;           // 第一/二学期
-    private int startWeek;      //  课程开始的周数
-    private int endWeek;        //  课程结束的周数
-    private int exam;           //  考核方式（1.开卷 2.闭卷 3.考查）
-    private int college;        // 开课学院 （待规定）
-    private int campus;         // 上课校区(1.南校 2.东校 3.北校 4.珠海校区 5.深圳校区)
-    private String address;     // 具体上课地点（如：B205）
-    private String require;     // 选课要求
-    private int day1 = 0;       // 每周第一次上课的星期数（1-7）
-    private int start1;         // 第一次课开始的节数（1-10）
-    private int end1;           // 第一节课结束的节数（2-11）
-    private int day2 = 0;        // 每周第二次上课的星期数（1-7），为0 的时候表示该周不上这节课
-    private int start2;         // 第二次课开始的节数（1-10）
-    private int end2;           // 第二节课结束的节数（2-11）
+public class Course extends BmobObject{
+    private String id;              // 课程id（课程号）
+    private String name;            // 课程名称
+    private Integer credit;         // 课程学分
+    private Integer type;           // 课程类别（1.公必 2.公选 3.专必 4.专选 5.限选）
+    private String teacherName;     // 老师Id
+    private Integer capacity;       // 课容量
+    private Integer cover;          // 课程已选人数
+    private Integer year;           // 学年度（计开始的年份， 如：2017代表2017-2018学年）
+    private Integer term;           // 第一/二学期(1. 第一学期 2.第二学期)
+    private Integer exam;           // 考核方式（1.开卷 2.闭卷 3.考查）
+    private Integer college;        // 开课学院 （待规定）
+    private Integer campus;         // 上课校区(1.南校 2.东校 3.北校 4.珠海校区 5.深圳校区)
+    private String require;         // 选课要求
+    private Lesson lesson1;         // 第一次课
+    private Lesson lesson2;         // 第二次课
+
+    private Integer major;          //可选择这门课的专业，和Student类的major变量匹配，0 表示所有专业可选
 
     public Course() {}
-
-    public Course(String name, int teacherId, int point, int type, int day1, int start1, int end1, int day2, int start2, int end2) {
-        this.name =name;
-        this.teacherId = teacherId;
-        this.credit = point;
-        this.type =type;
-        this.day1 =day1;
-        this.start1 = start1;
-        this.end1 = end1;
-        this.day2 = day2;
-        this.start2 = start2;
-        this.end2 = end2;
-    }
 
     public void setId(String id) {
         this.id = id;
@@ -49,95 +33,71 @@ public class Course {
     public String getId() {
         return id;
     }
-
     public void setName(String name) {
         this.name = name;
     }
     public String getName() {
         return name;
     }
-
     public void setCredit(int credit) {
         this.credit = credit;
     }
-    public int getCredit() {
+    public Integer getCredit() {
         return credit;
     }
-
     public void setType(int type) {
         this.type = type;
     }
-    public int getType() {
+    public Integer getType() {
         return type;
     }
-
-    public void setTeacherId(int teacherId) {
-        this.teacherId =teacherId;
+    public void setTeacherName(String teacherId) {
+        this.teacherName =teacherId;
     }
-    public int getTeacherId() {
-        return teacherId;
+    public String getTeacherName() {
+        return teacherName;
     }
-
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
-    public int getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
     public void setCover(int cover) {
         this.cover = cover;
     }
-    public int getCover() {
+    public Integer getCover() {
         return cover;
     }
-
     public void setYear(int year) {
         this.year = year;
     }
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
     public void setTerm(int term) {
         this.term = term;
     }
-    public int getTerm() {
+    public Integer getTerm() {
         return term;
-    }
-    public void setStartWeek(int startWeek) {
-        this.startWeek = startWeek;
-    }
-    public int getStartWeek() {
-        return startWeek;
-    }
-    public void setEndWeek(int end) {
-        this.endWeek = end;
-    }
-    public int getEndWeek() {
-        return endWeek;
     }
     public void setExam(int exam) {
         this.exam = exam;
     }
-    public int getExam() {
+    public Integer getExam() {
         return exam;
     }
     public void setCollege(int college) {
         this.college = college;
     }
-    public int getCollege() {
+    public Integer getCollege() {
         return college;
     }
     public void setCampus(int campus) {
         this.campus = campus;
     }
-    public int getCampus() {
+    public Integer getCampus() {
         return campus;
-    }
-    public void setAddress(String addr) {
-        address = addr;
-    }
-    public String getAddress() {
-        return address;
     }
     public void setRequire(String require) {
         this.require = require;
@@ -145,41 +105,29 @@ public class Course {
     public String getRequire() {
         return require;
     }
-    public void setDay1(int day1) {
-        this.day1 = day1;
+
+    public void setLesson1(Lesson lesson1) {
+        this.lesson1 = new Lesson(lesson1);
     }
-    public int getDay1() {
-        return day1;
+
+    public Lesson getLesson1() {
+        return lesson1;
     }
-    public void setStart1(int start1) {
-        this.start1 = start1;
+
+    public void setLesson2(Lesson lesson2) {
+        this.lesson2 = new Lesson(lesson2);
     }
-    public int getStart1() {
-        return start1;
+
+    public Lesson getLesson2() {
+        return lesson2;
     }
-    public void setEnd1(int end1) {
-        this.end1 = end1;
+
+    public void setMajor(Integer major) {
+        this.major = major;
     }
-    public int getEnd1() {
-        return  end1;
-    }
-    public void setDay2(int day2) {
-        this.day2 = day2;
-    }
-    public int getDay2() {
-        return day2;
-    }
-    public void setStart2(int start2) {
-        this.start2 = start2;
-    }
-    public int getStart2() {
-        return start2;
-    }
-    public void setEnd2(int end2) {
-        this.end2 = end2;
-    }
-    public int getEnd2() {
-        return end2;
+
+    public Integer getMajor() {
+        return major;
     }
 }
 

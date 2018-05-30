@@ -80,10 +80,10 @@ public class HomeFragment extends Fragment {
         bannerView.startLoop(true);
         bannerView.setViewList(viewsList);
 
-        title = mView.findViewById(R.id.tab1).findViewById(R.id.title);
+        title = mView.findViewById(R.id.title);
         title.setText("公告栏");
 
-        person = mView.findViewById(R.id.tab1).findViewById(R.id.person);
+        person = mView.findViewById(R.id.person);
         person.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

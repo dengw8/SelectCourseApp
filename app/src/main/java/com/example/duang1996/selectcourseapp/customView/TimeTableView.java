@@ -37,7 +37,6 @@ public class TimeTableView extends LinearLayout {
             R.drawable.select_label_yi, R.drawable.select_label_wuw };
 
     private final static int START = 0;
-
     //最大节数
     public final static int MAXNUM = 11;
     //显示到星期几

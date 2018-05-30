@@ -7,6 +7,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.duang1996.selectcourseapp.bean.Student;
+
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.LogInListener;
+import cn.bmob.v3.listener.SaveListener;
+
 public class LoginActivity extends AppCompatActivity {
     private EditText netId;
     private EditText password;
@@ -36,11 +43,17 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
+                BmobUserUtil.getInstance().login(netId.getText().toString(), password.getText().toString(), new LogInListener() {
+                    @Override
+                    public void done(Object o, BmobException e) {
+                        if(e == null) {
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        } else {
 
-                //finish掉当前活动，是在主页面按返回键不再返回到登录活动
-                finish();
+                        }
+                    }
+                });
             }
         });
     }
