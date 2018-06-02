@@ -4,60 +4,76 @@
     android:id="@+id/main_bottom"
     android:layout_width="match_parent"
     android:layout_height="56dp"
-    android:orientation="horizontal"
     android:layout_alignParentBottom="true"
-    android:gravity="center_vertical">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/btn_home"
-        android:layout_width="0dp"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/grey_300"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:drawableTop="@drawable/ic_home_grey_500_24dp"
-        android:gravity="center"
-        android:paddingBottom="2dip"
-        android:paddingTop="7dip"
-        android:scaleType="matrix"
-        android:text="公告"
-        android:textSize="15sp"/>
-    <TextView
-        android:id="@+id/btn_select"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:drawableTop="@drawable/ic_search_grey_500_24dp"
-        android:gravity="center"
-        android:paddingBottom="2dip"
-        android:paddingTop="7dip"
-        android:scaleType="matrix"
-        android:text="选课"
-        android:textSize="15sp" />
-    <TextView
-        android:id="@+id/btn_result"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:drawableTop="@drawable/ic_playlist_add_check_grey_500_24dp"
-        android:gravity="center"
-        android:paddingBottom="2dip"
-        android:paddingTop="7dip"
-        android:scaleType="matrix"
-        android:text="已选课程"
-        android:textSize="15sp" />
-    <TextView
-        android:id="@+id/btn_courses"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:drawableTop="@drawable/ic_date_range_grey_500_24dp"
-        android:gravity="center"
-        android:paddingBottom="2dip"
-        android:paddingTop="7dip"
-        android:scaleType="matrix"
-        android:text="课表"
-        android:textSize="15sp"/>
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btn_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_home_grey_500_24dp"
+            android:gravity="center"
+            android:paddingBottom="2dip"
+            android:paddingTop="7dip"
+            android:scaleType="matrix"
+            android:text="公告"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/btn_select"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_search_grey_500_24dp"
+            android:gravity="center"
+            android:paddingBottom="2dip"
+            android:paddingTop="7dip"
+            android:scaleType="matrix"
+            android:text="选课"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/btn_result"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_playlist_add_check_grey_500_24dp"
+            android:gravity="center"
+            android:paddingBottom="2dip"
+            android:paddingTop="7dip"
+            android:scaleType="matrix"
+            android:text="已选课程"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/btn_courses"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_date_range_grey_500_24dp"
+            android:gravity="center"
+            android:paddingBottom="2dip"
+            android:paddingTop="7dip"
+            android:scaleType="matrix"
+            android:text="课表"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+
 </LinearLayout>

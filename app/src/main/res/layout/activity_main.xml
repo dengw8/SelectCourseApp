@@ -1,23 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/sub_content"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
-    </FrameLayout>
+        <FrameLayout
+            android:id="@+id/sub_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/grey_300"
-        android:layout_alignTop="@+id/main_bottom"/>
+        <include layout="@layout/tab_layout_for_bottom" />
 
-    <include layout="@layout/tab_layout_for_bottom" />
-</LinearLayout>
+    </LinearLayout>
+
+    <com.rom4ek.arcnavigationview.ArcNavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@android:color/white"
+        app:itemBackground="@android:color/white"
+        app:arc_cropDirection="cropInside"
+        app:arc_width="60dp"
+        app:menu="@menu/activity_main_drawer"
+        app:headerLayout="@layout/nav_header_main" />
+
+
+</android.support.v4.widget.DrawerLayout>

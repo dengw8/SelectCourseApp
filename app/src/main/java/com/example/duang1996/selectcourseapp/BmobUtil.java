@@ -8,7 +8,6 @@ import com.example.duang1996.selectcourseapp.bean.Lesson;
 import com.example.duang1996.selectcourseapp.bean.Student;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -48,18 +47,48 @@ public class BmobUtil {
 
     /*
      * 查询当前学生的可选课程列表
-     * @param 当前学生实例的引用
+     * @param1 当前学生的专业代码
+     * @param2 当前学年
+     * @param3 当前学期
      */
-    public List<Course> getSelectableCourseList(int major) {
+    public List<Course> getSelectableCourseList(int major, int year, int term) {
         final List<Course> result = new ArrayList<>();
 
         // 构造一个CountDownLatch实例
         final CountDownLatch c = new CountDownLatch(1);
 
-        BmobQuery<Course> query = new BmobQuery<Course>();
-        // 基于专业查询（待完善）
-        query.addWhereEqualTo("major", major);
-        // 执行查询方法（注意 FindListener是一个异步方法）
+        // 查询条件1.1：该专业可选的非公选课
+        BmobQuery<Course> eq1 = new BmobQuery<>();
+        eq1.addWhereEqualTo("major", major);
+
+        // 查询条件1.2：该专业可选的公选课
+        BmobQuery<Course> eq2 = new BmobQuery<>();
+        eq2.addWhereEqualTo("major", 0);
+
+        // 查询条件1：条件1.1 或 1.2
+        List<BmobQuery<Course>> queries = new ArrayList<>();
+        queries.add(eq1);
+        queries.add(eq2);
+        BmobQuery<Course> mainQuery = new BmobQuery<>();
+        BmobQuery<Course> or = mainQuery.or(queries);
+
+        // 查询条件2： 该学年可以选择的课
+        BmobQuery<Course> eq3 = new BmobQuery<>();
+        eq3.addWhereEqualTo("year", year);
+
+        // 查询条件4：该学期可以选择的课
+        BmobQuery<Course> eq4 = new BmobQuery<>();
+        eq4.addWhereEqualTo("term", term);
+
+        //最后组装完整的and条件
+        List<BmobQuery<Course>> andQuerys = new ArrayList<>();
+        andQuerys.add(or);
+        andQuerys.add(eq3);
+        andQuerys.add(eq4);
+
+        //查询符合整个and条件的课程
+        BmobQuery<Course> query = new BmobQuery<>();
+        query.and(andQuerys);
         query.findObjects(new FindListener<Course>() {
             @Override
             public void done(List<Course> objects, BmobException e) {
@@ -67,7 +96,7 @@ public class BmobUtil {
                     result.addAll(objects);
                     c.countDown();
                 } else {
-                    Log.i("mydebug", "失败：" + e.getMessage() + "," + e.getErrorCode());
+                    e.printStackTrace();
                 }
             }
         });
@@ -78,6 +107,29 @@ public class BmobUtil {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public List<Lesson> getAllLessons() {
+        final List<Lesson> res = new ArrayList<>();
+        final CountDownLatch c = new CountDownLatch(1);
+        BmobQuery<Lesson> query = new BmobQuery<Lesson>();
+        query.findObjects(new FindListener<Lesson>() {
+            @Override
+            public void done(List<Lesson> list, BmobException e) {
+                if(e == null) {
+                    res.addAll(list);
+                    c.countDown();
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+        try {
+            c.await();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
     }
 
     /* 获取当前user的已选课程的ObjectId数组
@@ -94,11 +146,11 @@ public class BmobUtil {
         query.getObject(userObjectId, new QueryListener<Student>() {
             @Override
             public void done(Student object, BmobException e) {
-                if(object != null){
+                if(e == null){
                     result.addAll(object.getSelectedCourse());
                     c.countDown();
                 }else{
-                    Log.i("bmob","失败：" + e.getMessage()+","+e.getErrorCode());
+                    Log.i("bmob","失败2：" + e.getMessage()+","+e.getErrorCode());
                 }
             }
         });
@@ -128,7 +180,7 @@ public class BmobUtil {
                     result.addAll(object.getSelectingCourse());
                     c.countDown();
                 }else{
-                    Log.i("bmob","失败：" + e.getMessage()+","+e.getErrorCode());
+                    Log.i("bmob","失败3：" + e.getMessage()+","+e.getErrorCode());
                 }
             }
         });
@@ -159,7 +211,7 @@ public class BmobUtil {
                     result.add(object);
                     c.countDown();
                 }else{
-                    Log.i("bmob","失败：" + e.getMessage()+","+e.getErrorCode());
+                    Log.i("bmob","失败4：" + e.getMessage()+","+e.getErrorCode());
                 }
             }
         });
@@ -171,9 +223,10 @@ public class BmobUtil {
         return result.get(0);
     }
 
+
     /*
-     * 通过的Lesson的ObjectId获取Lesson对象
-     * @param Lesson的ObjectId
+     * 根据Lesson的Id获取Lesson对象
+     * @param Lesson的Id
      */
     public Lesson fromObjectIdToLesson(String objectId) {
         final List<Lesson> result = new ArrayList<>();
@@ -188,7 +241,7 @@ public class BmobUtil {
                     result.add(object);
                     c.countDown();
                 }else{
-                    Log.i("bmob","失败：" + e.getMessage()+","+e.getErrorCode());
+                    e.printStackTrace();
                 }
             }
         });
@@ -207,14 +260,14 @@ public class BmobUtil {
      * @param2 User对象
      * @param3 Course的当前cover数
      */
-    public void selectOneCourse(final String objectId, Student user, final int cover) {
+    public void selectOneCourse(final String objectId, Student user, final int screen) {
         user.addUnique("selectingCourse", objectId);
         user.update(new UpdateListener() {
             @Override
             public void done(BmobException e) {
                 if(e == null) {
                     // 更新course的cover字段
-                    updateCourseCover(objectId, cover, true);
+                    updateCourseCover(objectId, screen, true);
                 } else {
                     e.printStackTrace();
                 }
@@ -228,7 +281,7 @@ public class BmobUtil {
      * @param1 Course的ObjectId
      * @param2 user的ObjectId
      */
-    public void removeCourseFromSelectingCourseList(final String courseObjectId, Student user, final int cover) {
+    public void removeCourseFromSelectingCourseList(final String courseObjectId, Student user, final int screen) {
         user.removeAll("selectingCourse", Collections.singletonList(courseObjectId));
         user.update(new UpdateListener() {
             @Override
@@ -236,7 +289,7 @@ public class BmobUtil {
                 if(e != null) {
                     e.printStackTrace();
                 } else {
-                    updateCourseCover(courseObjectId, cover, false);
+                    updateCourseCover(courseObjectId, screen, false);
                 }
             }
         });
@@ -268,14 +321,14 @@ public class BmobUtil {
      * @param2 Course的当前cover数
      * @param3 标记位，区分增加还是减少cover
      */
-    private void updateCourseCover(String objectId, int cover, boolean sign) {
+    private void updateCourseCover(String objectId, int screen, boolean sign) {
         if(sign) {
-            cover++;
+            screen++;
         } else {
-            cover--;
+            screen--;
         }
         Course course = new Course();
-        course.setCover(cover);
+        course.setScreen(screen);
         course.update(objectId, new UpdateListener() {
             @Override
             public void done(BmobException e) {

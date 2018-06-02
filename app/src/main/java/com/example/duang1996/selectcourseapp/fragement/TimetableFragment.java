@@ -1,9 +1,11 @@
 package com.example.duang1996.selectcourseapp.fragement;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +14,17 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.duang1996.selectcourseapp.BmobUtil;
 import com.example.duang1996.selectcourseapp.R;
-import com.example.duang1996.selectcourseapp.customView.TimeTableModel;
+import com.example.duang1996.selectcourseapp.bean.Course;
+import com.example.duang1996.selectcourseapp.bean.Lesson;
+import com.example.duang1996.selectcourseapp.bean.TimeTableModel;
 import com.example.duang1996.selectcourseapp.customView.TimeTableView;
+import com.example.duang1996.selectcourseapp.global.Global;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 public class TimetableFragment extends Fragment {
     private TimeTableView mTimaTableView;
@@ -46,10 +53,12 @@ public class TimetableFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        mView = inflater.inflate(R.layout.fragment_timetable, container, false);
+        // 初始化mList，添加数据
         mList = new ArrayList<TimeTableModel>();
+        initList();
+
+        mView = inflater.inflate(R.layout.fragment_timetable, container, false);
         mTimaTableView = mView.findViewById(R.id.main_timetable_ly);
-        addList();
         mTimaTableView.setTimeTable(mList);
 
         adapter= new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, weeks);
@@ -75,34 +84,6 @@ public class TimetableFragment extends Fragment {
         return mView;
     }
 
-    private void addList() {
-        mList.add(new TimeTableModel(0, 1, 2, 1, "8:20", "10:10", "财务报表分析",
-                "王老师", "1", "2-13"));
-        mList.add(new TimeTableModel(0, 3, 4, 1, "8:20", "10:10", "审计实务",
-                "李老师", "2", "2-13"));
-        mList.add(new TimeTableModel(0, 6, 7, 1, "8:20", "10:10", "市场营销实务",
-                "王", "3", "2-13"));
-
-
-        mList.add(new TimeTableModel(0, 6, 7, 2, "8:20", "10:10", "财务管理实务",
-                "老师1", "4", "2-13"));
-        mList.add(new TimeTableModel(0, 8, 9, 2, "8:20", "10:10", "财务报表分析",
-                "老师2", "5", "2-13"));
-
-        mList.add(new TimeTableModel(0, 1, 2, 3, "8:20", "10:10", "审计实务",
-                "老师3", "6", "2-13"));
-
-        mList.add(new TimeTableModel(0, 6, 7, 3, "8:20", "10:10", "管理会计实务",
-                "老师4", "7", "2-13"));
-        mList.add(new TimeTableModel(0, 8, 9, 4, "8:20", "10:10", "管理会计实务",
-                "老师5", "9", "2-13"));
-        mList.add(new TimeTableModel(0, 3, 5, 4, "8:20", "10:10", "财务管理实务",
-                "老师4", "8", "2-13"));
-        mList.add(new TimeTableModel(0, 6, 8, 5, "8:20", "10:10", "证券投资分析",
-                "老师7", "11", "2-13"));
-        mList.add(new TimeTableModel(0, 3, 5, 5, "8:20", "10:10", "税务筹划",
-                "老师6", "10", "2-13"));
-    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -111,5 +92,55 @@ public class TimetableFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    private void initList() {
+        for(Course course : Global.getSelectedCourseList()) {
+            String str1 = course.getLesson1().getObjectId();
+            String str2 = course.getLesson2().getObjectId();
+            if(!str1.equals("")) {
+                for(Lesson item : Global.getLessonList()) {
+                    if(str1.equals(item.getObjectId())) {
+                        mList.add(new TimeTableModel(course.getName(), item.getStartWeek(), item.getEndWeek(), item.getStart(), item.getEnd(), item.getWeek(), item.getPlace()));
+                        break;
+                    }
+                }
+            }
+            if(!str2.equals("")) {
+                for(Lesson item : Global.getLessonList()) {
+                    if(str2.equals(item.getObjectId())) {
+                        mList.add(new TimeTableModel(course.getName(), item.getStartWeek(), item.getEndWeek(), item.getStart(), item.getEnd(), item.getWeek(), item.getPlace()));
+                        break;
+                    }
+                }
+            }
+        }
+        for(Course course : Global.getSelectingCourseList()) {
+            String str1 = course.getLesson1().getObjectId();
+            String str2 = course.getLesson2().getObjectId();
+            Log.d("mydebug" ,"size : " + Global.getLessonListSize());
+            Log.d("mydebug", str1);
+            Log.d("mydebug", str2);
+            Log.d("mydebug", Global.getLessonList(0).getObjectId());
+            Log.d("mydebug", Global.getLessonList(1).getObjectId());
+            if(!str1.equals("")) {
+                for(Lesson item : Global.getLessonList()) {
+                    if(str1.equals(item.getObjectId())) {
+                        Log.d("mydebug", str1);
+                        mList.add(new TimeTableModel(course.getName(), item.getStartWeek(), item.getEndWeek(), item.getStart(), item.getEnd(), item.getWeek(), item.getPlace()));
+                        break;
+                    }
+                }
+            }
+            if(!str2.equals("")) {
+                for(Lesson item : Global.getLessonList()) {
+                    if(str2.equals(item.getObjectId())) {
+                        Log.d("mydebug", str2);
+                        mList.add(new TimeTableModel(course.getName(), item.getStartWeek(), item.getEndWeek(), item.getStart(), item.getEnd(), item.getWeek(), item.getPlace()));
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

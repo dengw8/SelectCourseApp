@@ -1,11 +1,17 @@
 package com.example.duang1996.selectcourseapp;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -29,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView btnSelect;
     private TextView btnTimetable;
     private TextView btnResult;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
 
     private Fragment homeFragment;
     private Fragment select_courseFragment;
@@ -40,18 +48,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //隐藏顶部标题栏
-        if (getSupportActionBar() != null){
-            getSupportActionBar().hide();
-        }
-        // 初始化Global中的两个列表
-        initGlobalVariable();
-
         // 控件初始化
         initViews();
 
         // 初始化底部tab栏
         setDefaultFragment();
+
+        // 初始化Global中的两个列表
+        initGlobalVariable();
     }
 
     private void initViews() {
@@ -59,11 +63,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSelect = findViewById(R.id.btn_select);
         btnTimetable = findViewById(R.id.btn_courses);
         btnResult = findViewById(R.id.btn_result);
+        drawerLayout  =findViewById(R.id.drawer_layout);
+
+        navigationView = findViewById(R.id.nav_view);
 
         btnHome.setOnClickListener(this);
         btnSelect.setOnClickListener(this);
         btnTimetable.setOnClickListener(this);
         btnResult.setOnClickListener(this);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                drawerLayout.closeDrawers();
+                BmobUserUtil.getInstance().logout();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            }
+        });
     }
 
     /**
@@ -161,14 +179,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // 初始化Global中的两个列表
     private void initGlobalVariable() {
-        new Thread() {
+        new Thread(new Runnable() {
             @Override
-            public  void run() {
+            public void run() {
                 final Student user = BmobUserUtil.getInstance().getCurrentUser();
                 BmobUtil instance = BmobUtil.getInstance();
 
+                // 获取Lesson列表
+                Global.addAllLessonList(instance.getAllLessons());
+
+
                 // 获取可选择课程列表
-                Global.addAllSelectableCourseList(instance.getSelectableCourseList(user.getMajor()));
+                Global.addAllSelectableCourseList(instance.getSelectableCourseList(user.getMajor(), 2017, 2));
 
                 // 获取已选择课程列表
                 List<String> list = new ArrayList<>();
@@ -178,7 +200,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Global.addSelectedCourseList(instance.fromObjectIdToCourse(objectId));
                     }
                 }
-
                 // 获取待筛选课程列表
                 list = new ArrayList<>();
                 list.addAll(instance.getSelectingCourseObjectIdList(user.getObjectId()));
@@ -187,7 +208,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Global.addSelectingCourseList(instance.fromObjectIdToCourse(objectId));
                     }
                 }
-
                 // 去除selectableCourseList中和selectedCourseList中共有的元素
                 for(int i = 0; i < Global.getSelectedCourseListSize(); i++) {
                     for(int j = 0; j < Global.getSelectableCourseListSize();) {
@@ -210,6 +230,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
             }
-        }.start();
+        }).start();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.duang1996.selectcourseapp.global;
 
 import com.example.duang1996.selectcourseapp.bean.Course;
+import com.example.duang1996.selectcourseapp.bean.Lesson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,9 @@ public class Global {
     // 已选课程列表
     private static List<Course> selectedCourseList = new ArrayList<>();
     // 待筛选课程列表
-    private static  List<Course> selectingCourseList = new ArrayList<>();
+    private static List<Course> selectingCourseList = new ArrayList<>();
+    // Lesson的列表（这儿设计的不太好）
+    private static List<Lesson> lessonList = new ArrayList<>();
 
     /*
      * 提供一些静态方法操作这些List
@@ -40,6 +43,9 @@ public class Global {
     public static void addSelectingCourseList(Course course) {
         selectingCourseList.add(course);
     }
+    public static void addLessonList(Lesson lesson) {
+        lessonList.add(lesson);
+    }
 
     // 添加一个list
     public static void addAllSelectableCourseList(List<Course> list) {
@@ -50,6 +56,9 @@ public class Global {
     }
     public static void addAllSelectingCourseList(List<Course> list) {
         selectingCourseList.addAll(list);
+    }
+    public static void addAllLessonList(List<Lesson> list) {
+        lessonList.addAll(list);
     }
 
     // 删除一个item,参数为Index
@@ -62,6 +71,9 @@ public class Global {
     public static void removeSelectingCourseList(int i) {
         selectingCourseList.remove(i);
     }
+    public static void removeLessonList(int i) {
+        lessonList.remove(i);
+    }
 
     // 删除一个item,参数为对象实例
     public static void removeSelectableCourseList(Course item) {
@@ -73,16 +85,22 @@ public class Global {
     public static void removeSelectingCourseList(Course item) {
         selectingCourseList.remove(item);
     }
+    public static void removeLessonList(Lesson lesson) {
+        lessonList.remove(lesson);
+    }
 
     // 清空整个列表
     public static void clearSelectableCourseList() {
         selectableCourseList.clear();
     }
-    public static void clearSelectedCourseList(List<Course> list) {
+    public static void clearSelectedCourseList() {
         selectedCourseList.clear();
     }
-    public static void clearSelectingCourseList(List<Course> list) {
+    public static void clearSelectingCourseList() {
         selectingCourseList.clear();
+    }
+    public static void clearLessonList() {
+        lessonList.clear();
     }
 
     // 根据下标获取一个item
@@ -95,6 +113,9 @@ public class Global {
     public static Course getSelectingCourse(int i) {
         return selectingCourseList.get(i);
     }
+    public static Lesson getLessonList(int i) {
+        return lessonList.get(i);
+    }
 
     // 返回整个List
     public static List<Course> getSelectableCourseList(){
@@ -106,6 +127,9 @@ public class Global {
     public static List<Course> getSelectingCourseList(){
         return selectingCourseList;
     }
+    public static List<Lesson> getLessonList() {
+        return lessonList;
+    }
 
     // 返回List的长度
     public static int getSelectableCourseListSize(){
@@ -116,5 +140,8 @@ public class Global {
     }
     public static int getSelectingCourseListSize(){
         return selectingCourseList.size();
+    }
+    public static int getLessonListSize() {
+        return lessonList.size();
     }
 }

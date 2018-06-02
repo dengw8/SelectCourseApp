@@ -68,7 +68,7 @@
             android:gravity="center"
             android:text="公必"
             android:textSize="15sp"
-            android:textColor="@color/course_type_non" />
+            android:textColor="@color/tab_active" />
         <TextView
             android:id="@+id/general_elective"
             android:layout_width="wrap_content"
@@ -78,7 +78,7 @@
             android:gravity="center"
             android:text="公选"
             android:textSize="15sp"
-            android:textColor="@color/course_type_non"/>
+            android:textColor="@color/tab_active"/>
         <TextView
             android:id="@+id/major_compulsory"
             android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
             android:gravity="center"
             android:text="专必"
             android:textSize="15sp"
-            android:textColor="@color/course_type_non"/>
+            android:textColor="@color/tab_active"/>
         <TextView
             android:id="@+id/major_elective"
             android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
             android:gravity="center"
             android:text="专选"
             android:textSize="15sp"
-            android:textColor="@color/course_type_non"/>
+            android:textColor="@color/tab_active"/>
     </LinearLayout>
 
     <View

@@ -3,8 +3,9 @@ package com.example.duang1996.selectcourseapp.fragement;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,11 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.duang1996.selectcourseapp.BmobUserUtil;
 import com.example.duang1996.selectcourseapp.BmobUtil;
-import com.example.duang1996.selectcourseapp.PersonDetailActivity;
+import com.example.duang1996.selectcourseapp.CourseDetailActivity;
 import com.example.duang1996.selectcourseapp.R;
 import com.example.duang1996.selectcourseapp.adapter.CourseAdapter;
 import com.example.duang1996.selectcourseapp.bean.Course;
@@ -28,18 +28,19 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+
+import rx.functions.Action1;
 
 
 public class Select_ResultFragment extends Fragment implements  View.OnClickListener {
     private TextView title;
-    private ImageView person;
     private View mView;
 
     private RecyclerView recyclerView;
     private CourseAdapter adapter;
 
     private final List<Map<String, Object>> itemList = new ArrayList<>();
-
 
     public static Select_ResultFragment newInstance(String param1) {
         Select_ResultFragment fragment = new Select_ResultFragment();
@@ -88,9 +89,6 @@ public class Select_ResultFragment extends Fragment implements  View.OnClickList
         title = mView.findViewById(R.id.title);
         title.setText("已选课程");
 
-        person = mView.findViewById(R.id.person);
-
-
         recyclerView = mView.findViewById(R.id.selected_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -108,13 +106,31 @@ public class Select_ResultFragment extends Fragment implements  View.OnClickList
         // 点击查看课程详情
         adapter.setOnItemClickListener(new CourseAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int i) {
-                /*
-                 * 考虑自定义一个弹出控件用来显示课程详情
-                 */
+            public void onItemClick(int pos) {
+                boolean isFind = false;
+                Map<String, Object> tem = itemList.get(pos);
+                Course temp = new Course();
+                for(Course item : Global.getSelectingCourseList()) {
+                    if(item.getName().equals(tem.get("name").toString()) && item.getTeacherName().equals(tem.get("teacher").toString())) {
+                        temp = item;
+                        isFind = true;
+                        break;
+                    }
+                }
+                if(!isFind) {
+                    for(Course item : Global.getSelectedCourseList()) {
+                        if(item.getName().equals(tem.get("name").toString()) && item.getTeacherName().equals(tem.get("teacher").toString())) {
+                            temp = item;
+                            break;
+                        }
+                    }
+                }
+                Intent intent = new Intent(getActivity(), CourseDetailActivity.class);
+                intent.putExtra("course", temp);
+                startActivity(intent);
+
             }
         });
-
 
         // 长按退掉这门课
         adapter.setOnItemLongClickListener(new CourseAdapter.OnItemLongClickListener() {
@@ -126,10 +142,10 @@ public class Select_ResultFragment extends Fragment implements  View.OnClickList
                 for(int i = 0; i < Global.getSelectingCourseList().size(); i++) {
                     Course item = Global.getSelectingCourse(i);
                     if(item.getName().equals(tem.get("name")) && item.getTeacherName().equals(tem.get("teacher"))) {
-                        int cover = item.getCover();
-                        BmobUtil.getInstance().removeCourseFromSelectingCourseList(item.getObjectId(), BmobUserUtil.getInstance().getCurrentUser(), cover);
+                        int screen = item.getScreen();
+                        BmobUtil.getInstance().removeCourseFromSelectingCourseList(item.getObjectId(), BmobUserUtil.getInstance().getCurrentUser(), screen);
                         isFind = true;
-                        item.setCover(--cover);
+                        item.setCover(--screen);
                         Global.addSelectableCourseList(item);
                         Global.removeSelectingCourseList(i);
                     }
@@ -139,9 +155,9 @@ public class Select_ResultFragment extends Fragment implements  View.OnClickList
                     for(int i = 0; i < Global.getSelectedCourseList().size(); i++) {
                         Course item = Global.getSelectedCourse(i);
                         if(item.getName().equals(tem.get("name")) && item.getTeacherName().equals(tem.get("teacher"))) {
-                            int cover = item.getCover();
-                            BmobUtil.getInstance().removeCourseFromSelectedCourseList(item.getObjectId(), BmobUserUtil.getInstance().getCurrentUser(), cover);
-                            item.setCover(--cover);
+                            int screen = item.getScreen();
+                            BmobUtil.getInstance().removeCourseFromSelectedCourseList(item.getObjectId(), BmobUserUtil.getInstance().getCurrentUser(), screen);
+                            item.setCover(--screen);
                             Global.addSelectableCourseList(item);
                             Global.removeSelectedCourseList(i);
                         }
@@ -159,43 +175,56 @@ public class Select_ResultFragment extends Fragment implements  View.OnClickList
      */
     private void resetCourseList() {
         itemList.clear();
-        StringBuilder time = new StringBuilder();
         for(Course course : Global.getSelectedCourseList()) {
+            StringBuilder time = new StringBuilder();
             Map<String, Object> temp = new LinkedHashMap<>();
             temp.put("name", course.getName());
             temp.put("teacher", course.getTeacherName() + "");
             temp.put("point", "" + course.getCredit());
             temp.put("type", "选课成功");
-            /*
             if(course.getLesson1() != null) {
-                time.append(mapLessonToString(course.getLesson1()));
+                for(Lesson lesson : Global.getLessonList()) {
+                    if(course.getLesson1().getObjectId().equals(lesson.getObjectId())) {
+                        time.append(mapLessonToString(lesson));
+                    }
+                }
             }
             if(course.getLesson2() != null) {
-                time.append(",");
-                time.append(mapLessonToString(course.getLesson2()));
+                for(Lesson lesson : Global.getLessonList()) {
+                    if(course.getLesson2().getObjectId().equals(lesson.getObjectId())) {
+                        time.append(".");
+                        time.append(mapLessonToString(lesson));
+                    }
+                }
             }
-            */
-            temp.put("time","星期一");
+            temp.put("time",time);
             itemList.add(temp);
         }
         for(Course course : Global.getSelectingCourseList()) {
-                Map<String, Object> temp = new LinkedHashMap<>();
-                temp.put("name", course.getName());
-                temp.put("teacher", course.getTeacherName() + "");
-                temp.put("point", "" + course.getCredit());
-                temp.put("type", "待筛选");
-            /*
+            StringBuilder time = new StringBuilder();
+            Map<String, Object> temp = new LinkedHashMap<>();
+            temp.put("name", course.getName());
+            temp.put("teacher", course.getTeacherName() + "");
+            temp.put("point", "" + course.getCredit());
+            temp.put("type", "待筛选");
             if(course.getLesson1() != null) {
-                time.append(mapLessonToString(course.getLesson1()));
+                for(Lesson lesson : Global.getLessonList()) {
+                    if(course.getLesson1().getObjectId().equals(lesson.getObjectId())) {
+                        time.append(mapLessonToString(lesson));
+                    }
+                }
             }
             if(course.getLesson2() != null) {
-                time.append(",");
-                time.append(mapLessonToString(course.getLesson2()));
+                for(Lesson lesson : Global.getLessonList()) {
+                    if(course.getLesson2().getObjectId().equals(lesson.getObjectId())) {
+                        time.append("\n");
+                        time.append(mapLessonToString(lesson));
+                    }
+                }
             }
-            */
-                temp.put("time","星期一");
-                itemList.add(temp);
-            }
+            temp.put("time",time);
+            itemList.add(temp);
+        }
     }
 
     private StringBuilder mapLessonToString(Lesson lesson) {

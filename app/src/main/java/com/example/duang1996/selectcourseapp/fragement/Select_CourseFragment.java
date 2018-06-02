@@ -1,11 +1,8 @@
 package com.example.duang1996.selectcourseapp.fragement;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,26 +11,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.duang1996.selectcourseapp.BmobUserUtil;
 import com.example.duang1996.selectcourseapp.BmobUtil;
-import com.example.duang1996.selectcourseapp.PersonDetailActivity;
+import com.example.duang1996.selectcourseapp.CourseDetailActivity;
 import com.example.duang1996.selectcourseapp.R;
 import com.example.duang1996.selectcourseapp.adapter.CourseAdapter;
 import com.example.duang1996.selectcourseapp.bean.Course;
 import com.example.duang1996.selectcourseapp.bean.Lesson;
-import com.example.duang1996.selectcourseapp.bean.Student;
 import com.example.duang1996.selectcourseapp.global.Global;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import cn.bmob.v3.Bmob;
 
 public class Select_CourseFragment extends Fragment implements  View.OnClickListener {
 
@@ -105,19 +98,19 @@ public class Select_CourseFragment extends Fragment implements  View.OnClickList
         resetTextViewState();
         switch (v.getId()) {
             case R.id.general_compulsory:
-                setTextViewState(general_com, getLocalColor(R.color.course_type_non), getLocalColor(R.color.white));
+                setTextViewState(general_com, getLocalColor(R.color.tab_active), getLocalColor(R.color.white));
                 selectByType(1);
                 break;
             case R.id.general_elective:
-                setTextViewState(general_elec, getLocalColor(R.color.course_type_non), getLocalColor(R.color.white));
+                setTextViewState(general_elec, getLocalColor(R.color.tab_active), getLocalColor(R.color.white));
                 selectByType(2);
                 break;
             case R.id.major_compulsory:
-                setTextViewState(major_com, getLocalColor(R.color.course_type_non), getLocalColor(R.color.white));
+                setTextViewState(major_com, getLocalColor(R.color.tab_active), getLocalColor(R.color.white));
                 selectByType(3);
                 break;
             case R.id.major_elective:
-                setTextViewState(major_elec, getLocalColor(R.color.course_type_non), getLocalColor(R.color.white));
+                setTextViewState(major_elec, getLocalColor(R.color.tab_active), getLocalColor(R.color.white));
                 selectByType(4);
                 break;
             default:
@@ -156,11 +149,20 @@ public class Select_CourseFragment extends Fragment implements  View.OnClickList
         adapter.setOnItemClickListener(new CourseAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int i) {
-                /*
-                 * 考虑自定义一个弹出控件用来显示课程详情
-                 */
-
-                // do something
+                Map<String, Object> tem = itemList.get(i);
+                Log.d("teacher", tem.get("teacher").toString());
+                Log.d("name", tem.get("name").toString());
+                Course course = new Course();
+                for(Course item : Global.getSelectableCourseList()) {
+                    if(item.getTeacherName().equals(tem.get("teacher").toString()) && item.getName().equals(tem.get("name").toString())) {
+                        course = item;
+                        break;
+                    }
+                }
+                Log.d("teacher", course.getTeacherName() + "");
+                Intent intent = new Intent(getActivity(), CourseDetailActivity.class);
+                intent.putExtra("course", course);
+                startActivity(intent);
             }
         });
 
@@ -168,39 +170,38 @@ public class Select_CourseFragment extends Fragment implements  View.OnClickList
         adapter.setOnItemLongClickListener(new CourseAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClick(int i) {
-                Course course = Global.getSelectableCourse(i);
-                final int cover = course.getCover();
-                int cap = course.getCapacity();
-
-                if(cover < cap) {
-                    final String objectId = course.getObjectId();
-                    // 更新后台数据
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            BmobUtil.getInstance().selectOneCourse(objectId, BmobUserUtil.getInstance().getCurrentUser(), cover);
-                        }
-                    }).start();
-                    int tem = cover;
-                    course.setCover(++tem);
-                    Global.addSelectingCourseList(course);
-                    Global.removeSelectableCourseList(i);
-                    itemList.remove(i);
-                    adapter.notifyItemRemoved(i);
-                } else {
-                    // 提示该们课程的人数已满
-
+                Map<String, Object> tem = itemList.get(i);
+                Course course = new Course();
+                for(Course item : Global.getSelectableCourseList()) {
+                    if(item.getTeacherName().equals(tem.get("teacher").toString()) && item.getName().equals(tem.get("name").toString())) {
+                        course = item;
+                        break;
+                    }
                 }
-
+                final int screen = course.getScreen();
+                final String objectId = course.getObjectId();
+                // 更新后台数据
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        BmobUtil.getInstance().selectOneCourse(objectId, BmobUserUtil.getInstance().getCurrentUser(), screen);
+                    }
+                }).start();
+                int temp = screen;
+                course.setScreen(++temp);
+                Global.addSelectingCourseList(course);
+                Global.removeSelectableCourseList(i);
+                itemList.remove(i);
+                adapter.notifyItemRemoved(i);
             }
         });
     }
 
     private void resetTextViewState() {
-        setTextViewState(general_com, getLocalColor(R.color.white),getLocalColor(R.color.course_type_non));
-        setTextViewState(general_elec, getLocalColor(R.color.white), getLocalColor(R.color.course_type_non));
-        setTextViewState(major_com, getLocalColor(R.color.white), getLocalColor(R.color.course_type_non));
-        setTextViewState(major_elec, getLocalColor(R.color.white), getLocalColor(R.color.course_type_non));
+        setTextViewState(general_com, getLocalColor(R.color.white),getLocalColor(R.color.tab_active));
+        setTextViewState(general_elec, getLocalColor(R.color.white), getLocalColor(R.color.tab_active));
+        setTextViewState(major_com, getLocalColor(R.color.white), getLocalColor(R.color.tab_active));
+        setTextViewState(major_elec, getLocalColor(R.color.white), getLocalColor(R.color.tab_active));
     }
 
     private void setTextViewState(TextView textView, int backColor, int textColor) {
@@ -222,6 +223,36 @@ public class Select_CourseFragment extends Fragment implements  View.OnClickList
         for(Course course : Global.getSelectableCourseList()) {
             itemList.add(fromCourseToMap(course));
         }
+    }
+
+    private Map<String, Object> fromCourseToMap(Course course) {
+        StringBuilder time = new StringBuilder();
+        Map<String, Object> temp = new LinkedHashMap<>();
+        temp.put("name", course.getName());
+        temp.put("teacher", course.getTeacherName() + "");
+        temp.put("point", "" + course.getCredit());
+        if(course.getScreenWay() == 1) {
+            temp.put("type", "随机筛选");
+        } else {
+            temp.put("type", "先到先得");
+        }
+        if(course.getLesson1() != null) {
+            for(Lesson lesson : Global.getLessonList()) {
+                if(course.getLesson1().getObjectId().equals(lesson.getObjectId())) {
+                    time.append(mapLessonToString(lesson));
+                }
+            }
+        }
+        if(course.getLesson2() != null) {
+            for(Lesson lesson : Global.getLessonList()) {
+                if(course.getLesson2().getObjectId().equals(lesson.getObjectId())) {
+                    time.append("\n");
+                    time.append(mapLessonToString(lesson));
+                }
+            }
+        }
+        temp.put("time",time);
+        return temp;
     }
 
     private StringBuilder mapLessonToString(Lesson lesson) {
@@ -260,33 +291,6 @@ public class Select_CourseFragment extends Fragment implements  View.OnClickList
         res.append(lesson.getEndWeek());
         res.append(")");
         return res;
-    }
-
-    private Map<String, Object> fromCourseToMap(Course course) {
-        Map<String, Object> temp = new LinkedHashMap<>();
-        temp.put("name", course.getName());
-        temp.put("teacher", course.getTeacherName() + "");
-        temp.put("point", "" + course.getCredit());
-        if(course.getType() == 1) {
-            temp.put("type", "公必");
-        } else if(course.getType() == 2) {
-            temp.put("type", "专选");
-        } else if(course.getType() == 3) {
-            temp.put("type", "专必");
-        } else if(course.getType() == 4) {
-            temp.put("type", "专选");
-        }
-            /*
-            if(course.getLesson1() != null) {
-                time.append(mapLessonToString(course.getLesson1()));
-            }
-            if(course.getLesson2() != null) {
-                time.append(",");
-                time.append(mapLessonToString(course.getLesson2()));
-            }
-            */
-        temp.put("time","星期一");
-        return temp;
     }
 
     /*

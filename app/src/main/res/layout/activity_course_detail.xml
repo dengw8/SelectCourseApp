@@ -6,4 +6,341 @@
     android:layout_height="match_parent"
     tools:context="com.example.duang1996.selectcourseapp.CourseDetailActivity">
 
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="课程详情"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center_horizontal"
+        android:paddingBottom="10dp"/>
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_keyboard_arrow_left_white_36dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="虚拟现实"
+        android:textSize="23sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"/>
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#696969"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/name"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:text="学年度:"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="2017-2015"
+                    android:textColor="@color/text_blue"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:text="学期:"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tearm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="第二学期"
+                    android:textColor="@color/text_blue"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:text="课程类型:"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="2017-2015"
+                    android:textColor="@color/text_blue"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:text="开课单位:"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/college"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="数据科学与计算机学院"
+                    android:textColor="@color/text_blue"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:text="上课校区:"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/campus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="东校区"
+                    android:textColor="@color/text_blue"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:text="任课老师:"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/teacher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="季庆革"
+                    android:textColor="@color/text_blue"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:text="学分:"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/credit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="3"
+                    android:textColor="@color/text_blue"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:text="课容量:"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/capacity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="100"
+                    android:textColor="@color/text_blue"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:text="已选人数:"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/cover"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="0"
+                    android:textColor="@color/text_blue"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:text="空位人数:"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="100"
+                    android:textColor="@color/text_blue"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:text="待筛选人数:"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/screen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="100"
+                    android:textColor="@color/text_blue"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:text="考试方式:"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/exam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="开卷"
+                    android:textColor="@color/text_blue"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:text="筛选方式:"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/screenWay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="先到先得"
+                    android:textColor="@color/text_blue"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:text="选课要求:"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/require"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="15级软件工程(计算机应用软件)#15级软件工程(通信软件)#15级软件工程(数字媒体)#15级软件工程（电子政务）#15级软件工程(嵌入式软件与系统)#15级软件工程（国防生）"
+                    android:textColor="@color/text_blue"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
 </android.support.constraint.ConstraintLayout>

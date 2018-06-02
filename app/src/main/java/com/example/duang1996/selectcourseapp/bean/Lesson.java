@@ -1,7 +1,5 @@
 package com.example.duang1996.selectcourseapp.bean;
 
-import android.content.Intent;
-
 import cn.bmob.v3.BmobObject;
 
 /**
@@ -10,7 +8,7 @@ import cn.bmob.v3.BmobObject;
 
 public class Lesson extends BmobObject{
     private Integer week;          //星期几的课
-    private Intent start;          //第几节课开始
+    private Integer start;         //第几节课开始
     private Integer end;           //第几节课结束
     private Integer startWeek;    //第几周开始上这门课
     private Integer endWeek;       //第几周结束
@@ -35,11 +33,11 @@ public class Lesson extends BmobObject{
         return week;
     }
 
-    public void setStart(Intent start) {
+    public void setStart(Integer start) {
         this.start = start;
     }
 
-    public Intent getStart() {
+    public Integer getStart() {
         return start;
     }
 

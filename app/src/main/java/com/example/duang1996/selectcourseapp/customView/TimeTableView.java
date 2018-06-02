@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.duang1996.selectcourseapp.R;
+import com.example.duang1996.selectcourseapp.bean.TimeTableModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +25,9 @@ import java.util.List;
  */
 
 public class TimeTableView extends LinearLayout {
+
+    private Context mContext;
+
     /**
      * 配色数组
      */
@@ -55,16 +59,19 @@ public class TimeTableView extends LinearLayout {
      * 第一行的星期显示
      */
     private LinearLayout mHorizontalWeekLayout;
+    /*
+     * 第一列的课程节数显示
+     */
     private LinearLayout mVerticalWeekLaout;
     private String[] mWeekTitle = {"一", "二", "三", "四", "五", "六", "日"};
     public static String[] colorStr = new String[20];
     int colorNum = 0;
-    private List<TimeTableModel> mListTimeTable = new ArrayList<TimeTableModel>();
 
-    private Context mContext;
+    private List<TimeTableModel> mListTimeTable = new ArrayList<TimeTableModel>();
 
     public TimeTableView(Context context) {
         super(context);
+        this.mContext = context;
     }
 
     public TimeTableView(Context context, AttributeSet attributeSet) {
@@ -103,7 +110,6 @@ public class TimeTableView extends LinearLayout {
 
 
     private void initView() {
-
         mHorizontalWeekLayout = new LinearLayout(getContext());
         mHorizontalWeekLayout.setOrientation(HORIZONTAL);
         mVerticalWeekLaout = new LinearLayout(getContext());
@@ -162,7 +168,7 @@ public class TimeTableView extends LinearLayout {
         Collections.sort(list, new Comparator<TimeTableModel>() {
             @Override
             public int compare(TimeTableModel o1, TimeTableModel o2) {
-                return o1.getStartnum() - o2.getStartnum();
+                return o1.getStartNum() - o2.getStartNum();
             }
         });
 
@@ -260,16 +266,16 @@ public class TimeTableView extends LinearLayout {
                 TimeTableModel tableModel = weekList.get(i);
                 if (i == 0) {
                     //添加的0到开始节数的空格
-                    weekTableView.addView(addBlankView(tableModel.getStartnum(), week, 0));
+                    weekTableView.addView(addBlankView(tableModel.getStartNum(), week, 0));
                     weekTableView.addView(createClassView(tableModel));
-                } else if (weekList.get(i).getStartnum() - weekList.get(i - 1).getEndnum() > 0) {
+                } else if (weekList.get(i).getStartNum() - weekList.get(i - 1).getEndNum() > 0) {
                     //填充
-                    weekTableView.addView(addBlankView(weekList.get(i).getStartnum() - weekList.get(i - 1).getEndnum(), week, weekList.get(i - 1).getEndnum()));
+                    weekTableView.addView(addBlankView(weekList.get(i).getStartNum() - weekList.get(i - 1).getEndNum(), week, weekList.get(i - 1).getEndNum()));
                     weekTableView.addView(createClassView(weekList.get(i)));
                 }
                 //绘制剩下的空白
                 if (i + 1 == size) {
-                    weekTableView.addView(addBlankView(MAXNUM - weekList.get(i).getEndnum() + 1, week, weekList.get(i).getEndnum()));
+                    weekTableView.addView(addBlankView(MAXNUM - weekList.get(i).getEndNum() + 1, week, weekList.get(i).getEndNum()));
                 }
             }
         }
@@ -286,7 +292,7 @@ public class TimeTableView extends LinearLayout {
     private View createClassView(final TimeTableModel model) {
         LinearLayout mTimeTableView = new LinearLayout(getContext());
         mTimeTableView.setOrientation(VERTICAL);
-        int num = (model.getEndnum() - model.getStartnum());
+        int num = (model.getEndNum() - model.getStartNum());
         mTimeTableView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dip2px((num + 1) * TIME_TABLE_HEIGHT) + (num + 1) * TIME_TABLE_LINE_HEIGHT));
 
         TextView mTimeTableNameView = new TextView(getContext());
@@ -296,7 +302,7 @@ public class TimeTableView extends LinearLayout {
                 android.R.color.white));
         mTimeTableNameView.setTextSize(16);
         mTimeTableNameView.setGravity(Gravity.CENTER);
-        mTimeTableNameView.setText(model.getName() + "@" + model.getClassroom());
+        mTimeTableNameView.setText(model.getName() + "@" + model.getPlace());
 
         mTimeTableView.addView(mTimeTableNameView);
         mTimeTableView.addView(getWeekHorizontalLine());
@@ -306,7 +312,7 @@ public class TimeTableView extends LinearLayout {
         mTimeTableView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), model.getName() + "@" + model.getClassroom(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), model.getName() + "@" + model.getPlace(), Toast.LENGTH_LONG).show();
             }
         });
         return mTimeTableView;

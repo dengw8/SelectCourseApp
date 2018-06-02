@@ -9,9 +9,19 @@
     </style>
 
     <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.FullScreen">
         <!-- 隐藏标题栏 -->
         <item name="windowNoTitle">true</item>
         <!-- 隐藏状态栏 -->
         <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="AppTheme.Base">
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 </resources>

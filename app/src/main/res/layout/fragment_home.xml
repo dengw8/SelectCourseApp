@@ -40,7 +40,8 @@
             app:layout_constraintBottom_toBottomOf="@id/notice_text"
             android:text="更多"
             android:textSize="18sp"
-            android:textColor="#4169E1"/>
+            android:textColor="#4169E1"
+            android:layout_marginRight="10dp"/>
 
         <View
             android:layout_width="match_parent"

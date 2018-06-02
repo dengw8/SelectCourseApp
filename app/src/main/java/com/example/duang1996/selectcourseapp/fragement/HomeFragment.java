@@ -2,27 +2,27 @@ package com.example.duang1996.selectcourseapp.fragement;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.example.duang1996.selectcourseapp.PersonDetailActivity;
+import com.example.duang1996.selectcourseapp.BmobUtil;
 import com.example.duang1996.selectcourseapp.R;
 
+import com.example.duang1996.selectcourseapp.bean.Course;
+import com.example.duang1996.selectcourseapp.global.Global;
 import com.oragee.banners.BannerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-    private ImageView person;
 
     private BannerView bannerView;
     private int[] imgIds = {R.drawable.sysu1, R.drawable.sysu2, R.drawable.sysu3};
@@ -62,7 +62,6 @@ public class HomeFragment extends Fragment {
          */
         initBanner();
 
-
         return mView;
     }
 
@@ -82,15 +81,6 @@ public class HomeFragment extends Fragment {
 
         title = mView.findViewById(R.id.title);
         title.setText("公告栏");
-
-        person = mView.findViewById(R.id.person);
-        person.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PersonDetailActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -101,5 +91,27 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    private void getLessonForCourse() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for(Course course : Global.getSelectableCourseList()) {
+                    String objectId1 = course.getLesson1().getObjectId();
+                    String objectId2 = course.getLesson2().getObjectId();
+                    if(!objectId1.equals("") ) {
+                       course.setLesson1(BmobUtil.getInstance().fromObjectIdToLesson(objectId1));
+                    } else {
+                        course.setLesson1(null);
+                    }
+                    if(!objectId2.equals("")) {
+                        course.setLesson2(BmobUtil.getInstance().fromObjectIdToLesson(objectId2));
+                    } else {
+                        course.setLesson2(null);
+                    }
+                }
+            }
+        }).start();
     }
 }
