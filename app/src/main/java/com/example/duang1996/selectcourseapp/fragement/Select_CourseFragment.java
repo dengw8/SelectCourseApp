@@ -23,20 +23,16 @@ import com.example.duang1996.selectcourseapp.bean.Lesson;
 import com.example.duang1996.selectcourseapp.global.Global;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Select_CourseFragment extends Fragment implements  View.OnClickListener {
-
     private View mView;
-    private TextView title;
     private TextView general_com;
     private TextView general_elec;
     private TextView major_com;
     private TextView major_elec;
-
 
     private RecyclerView recyclerView;
     private CourseAdapter adapter;
@@ -119,6 +115,7 @@ public class Select_CourseFragment extends Fragment implements  View.OnClickList
     }
 
     private void initViews() {
+        TextView title;
         title = mView.findViewById(R.id.title);
         title.setText("待选课程");
 
@@ -159,7 +156,6 @@ public class Select_CourseFragment extends Fragment implements  View.OnClickList
                         break;
                     }
                 }
-                Log.d("teacher", course.getTeacherName() + "");
                 Intent intent = new Intent(getActivity(), CourseDetailActivity.class);
                 intent.putExtra("course", course);
                 startActivity(intent);
@@ -178,21 +174,26 @@ public class Select_CourseFragment extends Fragment implements  View.OnClickList
                         break;
                     }
                 }
-                final int screen = course.getScreen();
-                final String objectId = course.getObjectId();
-                // 更新后台数据
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        BmobUtil.getInstance().selectOneCourse(objectId, BmobUserUtil.getInstance().getCurrentUser(), screen);
-                    }
-                }).start();
-                int temp = screen;
-                course.setScreen(++temp);
-                Global.addSelectingCourseList(course);
-                Global.removeSelectableCourseList(i);
-                itemList.remove(i);
-                adapter.notifyItemRemoved(i);
+                if(!isRushed(course)) {                 //时间不冲突
+                    final int screen = course.getScreen();
+                    final String objectId = course.getObjectId();
+                    // 更新后台数据
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            BmobUtil.getInstance().selectOneCourse(objectId, BmobUserUtil.getInstance().getCurrentUser(), screen);
+                        }
+                    }).start();
+                    int temp = screen;
+                    course.setScreen(++temp);
+                    Global.addSelectingCourseList(course);
+                    Global.removeSelectableCourseList(i);
+                    itemList.remove(i);
+                    adapter.notifyItemRemoved(i);
+                } else {
+                    // 自定义一个对话框进行提示
+                    Log.d("mydebug", "时间冲突了");
+                }
             }
         });
     }
@@ -255,6 +256,7 @@ public class Select_CourseFragment extends Fragment implements  View.OnClickList
         return temp;
     }
 
+    // 将Leeson对象使用字符串打印出来
     private StringBuilder mapLessonToString(Lesson lesson) {
         StringBuilder res = new StringBuilder();
         switch (lesson.getWeek()) {
@@ -291,6 +293,87 @@ public class Select_CourseFragment extends Fragment implements  View.OnClickList
         res.append(lesson.getEndWeek());
         res.append(")");
         return res;
+    }
+
+    // 查询待选择的课程是否和已经选择课程存在时间冲突
+    private boolean isRushed(Course course) {
+        boolean is_rushed = false;
+        Lesson lesson1 = getLesson1ForCourse(course);
+        Lesson lesson2 = getLesson2ForCourse(course);
+        for(Course item : Global.getSelectedCourseList()) {
+            if(isTwoLessonsRushed(lesson1, getLesson1ForCourse(item))) {
+                is_rushed = true;
+                break;
+            }
+            if(isTwoLessonsRushed(lesson1, getLesson2ForCourse(item))) {
+                is_rushed = true;
+                break;
+            }
+            if(isTwoLessonsRushed(lesson2, getLesson1ForCourse(item))) {
+                is_rushed = true;
+                break;
+            }
+            if(isTwoLessonsRushed(lesson2, getLesson2ForCourse(item))) {
+                is_rushed = true;
+                break;
+            }
+        }
+        for(Course item : Global.getSelectingCourseList()) {
+            if(isTwoLessonsRushed(lesson1, getLesson1ForCourse(item))) {
+                is_rushed = true;
+                break;
+            }
+            if(isTwoLessonsRushed(lesson1, getLesson2ForCourse(item))) {
+                is_rushed = true;
+                break;
+            }
+            if(isTwoLessonsRushed(lesson2, getLesson1ForCourse(item))) {
+                is_rushed = true;
+                break;
+            }
+            if(isTwoLessonsRushed(lesson2, getLesson2ForCourse(item))) {
+                is_rushed = true;
+                break;
+            }
+        }
+        return is_rushed;
+    }
+
+    // 作用如函数名
+    private Lesson getLesson1ForCourse(Course course) {
+        if(course.getLesson1() != null) {
+            for(Lesson lesson : Global.getLessonList()) {
+                if(course.getLesson1().getObjectId().equals(lesson.getObjectId())) {
+                    return lesson;
+                }
+            }
+        }
+        return null;
+    }
+
+    private Lesson getLesson2ForCourse(Course course) {
+        if(course.getLesson2() != null) {
+            for(Lesson lesson : Global.getLessonList()) {
+                if(course.getLesson2().getObjectId().equals(lesson.getObjectId())) {
+                    return lesson;
+                }
+            }
+        }
+        return null;
+    }
+
+    // 判断两个lesson之间是否存在时间冲突
+    private boolean isTwoLessonsRushed(Lesson lesson1, Lesson lesson2) {
+        if(lesson1 == null || lesson2 == null) {
+            return false;
+        }
+        if(!lesson1.getWeek().equals(lesson2.getWeek())) {
+            return false;
+        }
+        if(lesson1.getStart() > lesson2.getEnd() || lesson2.getStart() > lesson1.getEnd()) {
+            return false;
+        }
+        return true;
     }
 
     /*
