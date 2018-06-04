@@ -52,26 +52,17 @@ public class TimetableFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        // 初始化mList，添加数据
-        mList = new ArrayList<TimeTableModel>();
-        initList();
-
         mView = inflater.inflate(R.layout.fragment_timetable, container, false);
-        mTimaTableView = mView.findViewById(R.id.main_timetable_ly);
-        mTimaTableView.setTimeTable(mList);
 
-        adapter= new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, weeks);
+        adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, weeks);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         spinner = mView.findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int pos, long id) {
-
-                Toast.makeText(getContext(), "你点击的是:"+ weeks[pos], Toast.LENGTH_SHORT).show();
-
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                Global.pos = pos;
+                reInitList(pos + 1);
+                mTimaTableView.setTimeTable(mList);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -80,6 +71,17 @@ public class TimetableFragment extends Fragment {
         });
         spinner.setDropDownWidth(300);
         spinner.setAdapter(adapter);
+
+        // 初始化mList，添加数据
+        mList = new ArrayList<>();
+        if(Global.pos == -1) {
+            reInitList(1);
+        } else {
+            reInitList(Global.pos + 1);
+        }
+
+        mTimaTableView = mView.findViewById(R.id.main_timetable_ly);
+        mTimaTableView.setTimeTable(mList);
 
         return mView;
     }
@@ -94,13 +96,18 @@ public class TimetableFragment extends Fragment {
         super.onDetach();
     }
 
-    private void initList() {
+    /*
+     * 添加当前周要上的课程到mList中
+     * @param 要显示周数
+     */
+    private void reInitList(int week) {
+        mList.clear();
         for(Course course : Global.getSelectedCourseList()) {
             String str1 = course.getLesson1().getObjectId();
             String str2 = course.getLesson2().getObjectId();
             if(!str1.equals("")) {
                 for(Lesson item : Global.getLessonList()) {
-                    if(str1.equals(item.getObjectId())) {
+                    if(str1.equals(item.getObjectId()) && item.getStartWeek() <= week && item.getEndWeek() >= week) {
                         mList.add(new TimeTableModel(course.getName(), item.getStartWeek(), item.getEndWeek(), item.getStart(), item.getEnd(), item.getWeek(), item.getPlace()));
                         break;
                     }
@@ -108,7 +115,7 @@ public class TimetableFragment extends Fragment {
             }
             if(!str2.equals("")) {
                 for(Lesson item : Global.getLessonList()) {
-                    if(str2.equals(item.getObjectId())) {
+                    if(str2.equals(item.getObjectId()) && item.getStartWeek() <= week && item.getEndWeek() >= week) {
                         mList.add(new TimeTableModel(course.getName(), item.getStartWeek(), item.getEndWeek(), item.getStart(), item.getEnd(), item.getWeek(), item.getPlace()));
                         break;
                     }
@@ -118,15 +125,9 @@ public class TimetableFragment extends Fragment {
         for(Course course : Global.getSelectingCourseList()) {
             String str1 = course.getLesson1().getObjectId();
             String str2 = course.getLesson2().getObjectId();
-            Log.d("mydebug" ,"size : " + Global.getLessonListSize());
-            Log.d("mydebug", str1);
-            Log.d("mydebug", str2);
-            Log.d("mydebug", Global.getLessonList(0).getObjectId());
-            Log.d("mydebug", Global.getLessonList(1).getObjectId());
             if(!str1.equals("")) {
                 for(Lesson item : Global.getLessonList()) {
-                    if(str1.equals(item.getObjectId())) {
-                        Log.d("mydebug", str1);
+                    if(str1.equals(item.getObjectId()) && item.getStartWeek() <= week && item.getEndWeek() >= week) {
                         mList.add(new TimeTableModel(course.getName(), item.getStartWeek(), item.getEndWeek(), item.getStart(), item.getEnd(), item.getWeek(), item.getPlace()));
                         break;
                     }
@@ -134,8 +135,7 @@ public class TimetableFragment extends Fragment {
             }
             if(!str2.equals("")) {
                 for(Lesson item : Global.getLessonList()) {
-                    if(str2.equals(item.getObjectId())) {
-                        Log.d("mydebug", str2);
+                    if(str2.equals(item.getObjectId()) && item.getStartWeek() <= week && item.getEndWeek() >= week) {
                         mList.add(new TimeTableModel(course.getName(), item.getStartWeek(), item.getEndWeek(), item.getStart(), item.getEnd(), item.getWeek(), item.getPlace()));
                         break;
                     }

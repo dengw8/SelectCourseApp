@@ -28,6 +28,8 @@ public class Global {
     private static List<Course> selectingCourseList = new ArrayList<>();
     // Lesson的列表（这儿设计的不太好）
     private static List<Lesson> lessonList = new ArrayList<>();
+    // 课程表界面中Spinner选择的pos
+    public static int pos = -1;
 
     /*
      * 提供一些静态方法操作这些List

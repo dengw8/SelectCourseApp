@@ -110,6 +110,7 @@ public class TimeTableView extends LinearLayout {
 
 
     private void initView() {
+        removeAllViews();
         mHorizontalWeekLayout = new LinearLayout(getContext());
         mHorizontalWeekLayout.setOrientation(HORIZONTAL);
         mVerticalWeekLaout = new LinearLayout(getContext());
@@ -150,7 +151,7 @@ public class TimeTableView extends LinearLayout {
         mVerticalWeekLaout.addView(mLayout);
     }
 
-    /**
+    /*
      * 遍历出星期1~7的课表
      * 再进行排序
      *
@@ -164,14 +165,12 @@ public class TimeTableView extends LinearLayout {
                 list.add(timeTableModel);
             }
         }
-
         Collections.sort(list, new Comparator<TimeTableModel>() {
             @Override
             public int compare(TimeTableModel o1, TimeTableModel o2) {
                 return o1.getStartNum() - o2.getStartNum();
             }
         });
-
         return list;
     }
 
