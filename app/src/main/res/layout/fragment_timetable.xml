@@ -32,12 +32,12 @@
         android:layout_height="match_parent"
         android:fillViewport="false">
 
-        <com.example.duang1996.selectcourseapp.customView.TimeTableView
+        <com.example.duang1996.selectcourseapp.customview.TimeTableView
             android:id="@+id/main_timetable_ly"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-        </com.example.duang1996.selectcourseapp.customView.TimeTableView>
+        </com.example.duang1996.selectcourseapp.customview.TimeTableView>
 
     </ScrollView>
 

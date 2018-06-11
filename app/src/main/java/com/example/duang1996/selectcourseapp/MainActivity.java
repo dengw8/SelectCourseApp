@@ -1,8 +1,6 @@
 package com.example.duang1996.selectcourseapp;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -10,24 +8,21 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.duang1996.selectcourseapp.bean.Course;
-import com.example.duang1996.selectcourseapp.bean.Lesson;
 import com.example.duang1996.selectcourseapp.bean.Student;
 import com.example.duang1996.selectcourseapp.fragement.HomeFragment;
 import com.example.duang1996.selectcourseapp.fragement.Select_CourseFragment;
 import com.example.duang1996.selectcourseapp.fragement.Select_ResultFragment;
 import com.example.duang1996.selectcourseapp.fragement.TimetableFragment;
 import com.example.duang1996.selectcourseapp.global.Global;
+import com.example.duang1996.selectcourseapp.util.BmobUserUtil;
+import com.example.duang1996.selectcourseapp.util.BmobUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 

@@ -7,19 +7,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.duang1996.selectcourseapp.BmobUserUtil;
-import com.example.duang1996.selectcourseapp.BmobUtil;
+import com.example.duang1996.selectcourseapp.util.BmobUserUtil;
+import com.example.duang1996.selectcourseapp.util.BmobUtil;
 import com.example.duang1996.selectcourseapp.CourseDetailActivity;
 import com.example.duang1996.selectcourseapp.R;
 import com.example.duang1996.selectcourseapp.adapter.CourseAdapter;
 import com.example.duang1996.selectcourseapp.bean.Course;
 import com.example.duang1996.selectcourseapp.bean.Lesson;
+import com.example.duang1996.selectcourseapp.customview.PromptDialogFragment;
 import com.example.duang1996.selectcourseapp.global.Global;
 
 import java.util.ArrayList;
@@ -147,8 +147,6 @@ public class Select_CourseFragment extends Fragment implements  View.OnClickList
             @Override
             public void onItemClick(int i) {
                 Map<String, Object> tem = itemList.get(i);
-                Log.d("teacher", tem.get("teacher").toString());
-                Log.d("name", tem.get("name").toString());
                 Course course = new Course();
                 for(Course item : Global.getSelectableCourseList()) {
                     if(item.getTeacherName().equals(tem.get("teacher").toString()) && item.getName().equals(tem.get("name").toString())) {
@@ -174,7 +172,8 @@ public class Select_CourseFragment extends Fragment implements  View.OnClickList
                         break;
                     }
                 }
-                if(!isRushed(course)) {                 //时间不冲突
+                Course res = isRushed(course);
+                if( res == null) {                 // 时间不冲突
                     final int screen = course.getScreen();
                     final String objectId = course.getObjectId();
                     // 更新后台数据
@@ -191,8 +190,8 @@ public class Select_CourseFragment extends Fragment implements  View.OnClickList
                     itemList.remove(i);
                     adapter.notifyItemRemoved(i);
                 } else {
-                    // 自定义一个对话框进行提示
-                    Log.d("mydebug", "时间冲突了");
+                    String alert = "选课冲突！\n\n" + "当前课程与 " + res.getName() + " 存在时间冲突";
+                    PromptDialogFragment.newInstance(alert).show(getFragmentManager(), "dialog");
                 }
             }
         });
@@ -296,47 +295,22 @@ public class Select_CourseFragment extends Fragment implements  View.OnClickList
     }
 
     // 查询待选择的课程是否和已经选择课程存在时间冲突
-    private boolean isRushed(Course course) {
-        boolean is_rushed = false;
+    private Course isRushed(Course course) {
         Lesson lesson1 = getLesson1ForCourse(course);
         Lesson lesson2 = getLesson2ForCourse(course);
         for(Course item : Global.getSelectedCourseList()) {
-            if(isTwoLessonsRushed(lesson1, getLesson1ForCourse(item))) {
-                is_rushed = true;
-                break;
-            }
-            if(isTwoLessonsRushed(lesson1, getLesson2ForCourse(item))) {
-                is_rushed = true;
-                break;
-            }
-            if(isTwoLessonsRushed(lesson2, getLesson1ForCourse(item))) {
-                is_rushed = true;
-                break;
-            }
-            if(isTwoLessonsRushed(lesson2, getLesson2ForCourse(item))) {
-                is_rushed = true;
-                break;
+            if(isTwoLessonsRushed(lesson1, getLesson1ForCourse(item)) || isTwoLessonsRushed(lesson1, getLesson2ForCourse(item))
+                    || isTwoLessonsRushed(lesson2, getLesson1ForCourse(item)) || isTwoLessonsRushed(lesson2, getLesson2ForCourse(item))) {
+                return item;
             }
         }
         for(Course item : Global.getSelectingCourseList()) {
-            if(isTwoLessonsRushed(lesson1, getLesson1ForCourse(item))) {
-                is_rushed = true;
-                break;
-            }
-            if(isTwoLessonsRushed(lesson1, getLesson2ForCourse(item))) {
-                is_rushed = true;
-                break;
-            }
-            if(isTwoLessonsRushed(lesson2, getLesson1ForCourse(item))) {
-                is_rushed = true;
-                break;
-            }
-            if(isTwoLessonsRushed(lesson2, getLesson2ForCourse(item))) {
-                is_rushed = true;
-                break;
+            if(isTwoLessonsRushed(lesson1, getLesson1ForCourse(item)) || isTwoLessonsRushed(lesson1, getLesson2ForCourse(item))
+                  || isTwoLessonsRushed(lesson2, getLesson1ForCourse(item)) || isTwoLessonsRushed(lesson2, getLesson2ForCourse(item)) ) {
+                return item;
             }
         }
-        return is_rushed;
+        return null;
     }
 
     // 作用如函数名
@@ -348,6 +322,9 @@ public class Select_CourseFragment extends Fragment implements  View.OnClickList
                 }
             }
         }
+        /*
+         * 当前Course 没有Lesson1对象时返回null
+         */
         return null;
     }
 
@@ -359,6 +336,9 @@ public class Select_CourseFragment extends Fragment implements  View.OnClickList
                 }
             }
         }
+        /*
+         * 当前Course没有lesson2对象时返回null
+         */
         return null;
     }
 

@@ -1,10 +1,8 @@
 package com.example.duang1996.selectcourseapp.fragement;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.duang1996.selectcourseapp.BmobUtil;
+import com.example.duang1996.selectcourseapp.util.BmobUtil;
 import com.example.duang1996.selectcourseapp.R;
 
 import com.example.duang1996.selectcourseapp.bean.Course;

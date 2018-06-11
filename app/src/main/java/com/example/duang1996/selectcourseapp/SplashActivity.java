@@ -1,29 +1,15 @@
 package com.example.duang1996.selectcourseapp;
 
 import android.content.Intent;
-import android.os.Handler;
-import android.provider.SyncStateContract;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.daimajia.androidanimations.library.Techniques;
-import com.example.duang1996.selectcourseapp.bean.Course;
-import com.example.duang1996.selectcourseapp.bean.Student;
+import com.example.duang1996.selectcourseapp.util.BmobUserUtil;
+import com.example.duang1996.selectcourseapp.util.BmobUtil;
 import com.viksaa.sssplash.lib.activity.AwesomeSplash;
 import com.viksaa.sssplash.lib.cnst.Flags;
 import com.viksaa.sssplash.lib.model.ConfigSplash;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
-import cn.bmob.v3.listener.UpdateListener;
 
 
 public class SplashActivity extends AwesomeSplash {

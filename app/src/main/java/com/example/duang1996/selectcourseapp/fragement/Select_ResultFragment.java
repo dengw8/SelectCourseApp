@@ -3,20 +3,16 @@ package com.example.duang1996.selectcourseapp.fragement;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.duang1996.selectcourseapp.BmobUserUtil;
-import com.example.duang1996.selectcourseapp.BmobUtil;
+import com.example.duang1996.selectcourseapp.util.BmobUserUtil;
+import com.example.duang1996.selectcourseapp.util.BmobUtil;
 import com.example.duang1996.selectcourseapp.CourseDetailActivity;
 import com.example.duang1996.selectcourseapp.R;
 import com.example.duang1996.selectcourseapp.adapter.CourseAdapter;
@@ -28,9 +24,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-
-import rx.functions.Action1;
 
 
 public class Select_ResultFragment extends Fragment implements  View.OnClickListener {

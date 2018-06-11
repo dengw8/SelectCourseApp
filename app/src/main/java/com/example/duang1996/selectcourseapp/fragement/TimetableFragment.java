@@ -2,29 +2,23 @@ package com.example.duang1996.selectcourseapp.fragement;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.example.duang1996.selectcourseapp.BmobUtil;
 import com.example.duang1996.selectcourseapp.R;
 import com.example.duang1996.selectcourseapp.bean.Course;
 import com.example.duang1996.selectcourseapp.bean.Lesson;
 import com.example.duang1996.selectcourseapp.bean.TimeTableModel;
-import com.example.duang1996.selectcourseapp.customView.TimeTableView;
+import com.example.duang1996.selectcourseapp.customview.TimeTableView;
 import com.example.duang1996.selectcourseapp.global.Global;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 public class TimetableFragment extends Fragment {
     private TimeTableView mTimaTableView;
@@ -62,7 +56,7 @@ public class TimetableFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 Global.pos = pos;
                 reInitList(pos + 1);
-                mTimaTableView.setTimeTable(mList);
+                mTimaTableView.setTimeTable(mList, getFragmentManager());
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -81,7 +75,7 @@ public class TimetableFragment extends Fragment {
         }
 
         mTimaTableView = mView.findViewById(R.id.main_timetable_ly);
-        mTimaTableView.setTimeTable(mList);
+        mTimaTableView.setTimeTable(mList, getFragmentManager());
 
         return mView;
     }

@@ -27,6 +27,11 @@ public class TimeTableModel {
         this.place = place;
     }
 
+    @Override
+    public String toString() {
+        return name + "@" + place;
+    }
+
     public String getName() {
         return name;
     }
@@ -75,10 +80,5 @@ public class TimeTableModel {
     }
     public void setPlace(String place) {
         this.place = place;
-    }
-
-    @Override
-    public String toString() {
-        return name + "@" + place;
     }
 }

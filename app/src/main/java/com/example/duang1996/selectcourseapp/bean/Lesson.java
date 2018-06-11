@@ -28,47 +28,36 @@ public class Lesson extends BmobObject{
     public void setWeek(Integer week) {
         this.week = week;
     }
-
     public Integer getWeek() {
         return week;
     }
-
     public void setStart(Integer start) {
         this.start = start;
     }
-
     public Integer getStart() {
         return start;
     }
-
     public void setEnd(Integer end) {
         this.end = end;
     }
-
     public Integer getEnd() {
         return end;
     }
-
     public void setStartWeek(Integer startWeek) {
         this.startWeek = startWeek;
     }
-
     public Integer getStartWeek() {
         return startWeek;
     }
-
     public void setEndWeek(Integer endWeek) {
         this.endWeek = endWeek;
     }
-
     public Integer getEndWeek() {
         return endWeek;
     }
-
     public void setPlace(String place) {
         this.place = place;
     }
-
     public String getPlace() {
         return place;
     }

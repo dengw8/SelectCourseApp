@@ -120,27 +120,21 @@ public class Course extends BmobObject implements Serializable{
     public String getRequire() {
         return require;
     }
-
     public void setLesson1(Lesson lesson1) {
         this.lesson1 = new Lesson(lesson1);
     }
-
     public Lesson getLesson1() {
         return lesson1;
     }
-
     public void setLesson2(Lesson lesson2) {
         this.lesson2 = new Lesson(lesson2);
     }
-
     public Lesson getLesson2() {
         return lesson2;
     }
-
     public void setMajor(Integer major) {
         this.major = major;
     }
-
     public Integer getMajor() {
         return major;
     }

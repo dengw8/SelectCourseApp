@@ -1,8 +1,9 @@
-package com.example.duang1996.selectcourseapp.customView;
+package com.example.duang1996.selectcourseapp.customview;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -10,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.duang1996.selectcourseapp.R;
 import com.example.duang1996.selectcourseapp.bean.TimeTableModel;
@@ -27,6 +27,7 @@ import java.util.List;
 public class TimeTableView extends LinearLayout {
 
     private Context mContext;
+    private FragmentManager mFragmentManager;
 
     /**
      * 配色数组
@@ -72,6 +73,7 @@ public class TimeTableView extends LinearLayout {
     public TimeTableView(Context context) {
         super(context);
         this.mContext = context;
+        this.mFragmentManager = mFragmentManager;
     }
 
     public TimeTableView(Context context, AttributeSet attributeSet) {
@@ -235,15 +237,6 @@ public class TimeTableView extends LinearLayout {
             classView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dip2px(TIME_TABLE_HEIGHT)));
             blank.addView(classView);
             blank.addView(getWeekHorizontalLine());
-            final int num = i;
-            //这里可以处理空白处点击添加课表
-            classView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getContext(), "星期" + week + "第" + (start + num) + "节", Toast.LENGTH_LONG).show();
-                }
-            });
-
         }
         return blank;
     }
@@ -311,12 +304,15 @@ public class TimeTableView extends LinearLayout {
         mTimeTableView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), model.getName() + "@" + model.getPlace(), Toast.LENGTH_LONG).show();
+                String alert= "";
+                alert += "课程：" + model.getName() + "\n";
+                alert += "课室：" + model.getPlace() + "\n";
+                alert += "时间：" + getLessonTime(model) + "\n";
+                PromptDialogFragment.newInstance(alert).show(mFragmentManager, "dialog");
             }
         });
         return mTimeTableView;
     }
-
     /**
      * 转换dp
      *
@@ -328,8 +324,9 @@ public class TimeTableView extends LinearLayout {
         return (int) (dpValue * scale);
     }
 
-    public void setTimeTable(List<TimeTableModel> mlist) {
+    public void setTimeTable(List<TimeTableModel> mlist, FragmentManager mFragmentManager) {
         this.mListTimeTable = mlist;
+        this.mFragmentManager = mFragmentManager;
         for (TimeTableModel timeTableModel : mlist) {
             addTimeName(timeTableModel.getName());
         }
@@ -372,6 +369,100 @@ public class TimeTableView extends LinearLayout {
             }
         }
         return num;
+    }
+
+    private String getLessonTime(TimeTableModel model) {
+        StringBuilder start = new StringBuilder();
+        StringBuilder end = new StringBuilder();
+        switch (model.getStartNum()) {
+            case 1: {
+                start.append("8:00-");
+                break;
+            }
+            case 2: {
+                start.append("8:55-");
+                break;
+            }
+            case 3: {
+                start.append("10:00-");
+                break;
+            }
+            case 4: {
+                start.append("10:55-");
+                break;
+            }
+            case 5: {
+                start.append("14:20-");
+                break;
+            }
+            case 6: {
+                start.append("15:15-");
+                break;
+            }
+            case 7: {
+                start.append("16:20-");
+                break;
+            }
+            case 8: {
+                start.append("17:15-");
+                break;
+            }
+            case 9: {
+                start.append("19:00-");
+                break;
+            }
+            case 10: {
+                start.append("19:55-");
+                break;
+            }
+        }
+        switch (model.getEndNum()) {
+            case 1: {
+                end.append("8:45");
+                break;
+            }
+            case 2: {
+                end.append("9:40");
+                break;
+            }
+            case 3: {
+                end.append("10:45");
+                break;
+            }
+            case 4: {
+                end.append("11:40");
+                break;
+            }
+            case 5: {
+                end.append("15:05");
+                break;
+            }
+            case 6: {
+                end.append("16:00");
+                break;
+            }
+            case 7: {
+                end.append("17:05");
+                break;
+            }
+            case 8: {
+                end.append("18:00");
+                break;
+            }
+            case 9: {
+                end.append("19:45");
+                break;
+            }
+            case 10: {
+                end.append("20:40");
+                break;
+            }
+            case 11: {
+                end.append("21:35");
+                break;
+            }
+        }
+        return start.toString() + end.toString();
     }
 }
 

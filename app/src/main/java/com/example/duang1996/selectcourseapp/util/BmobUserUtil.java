@@ -1,4 +1,4 @@
-package com.example.duang1996.selectcourseapp;
+package com.example.duang1996.selectcourseapp.util;
 
 import android.text.TextUtils;
 
@@ -36,11 +36,8 @@ public class BmobUserUtil {
     }
 
     public void login(String username, String password, final LogInListener listener) {
-        if (TextUtils.isEmpty(username.trim())) {
-
-        }
-        if (TextUtils.isEmpty(password.trim())) {
-
+        if (TextUtils.isEmpty(username.trim()) || TextUtils.isEmpty(password.trim())) {
+            return;
         }
         Student user = new Student();
         user.setUsername(username.trim());

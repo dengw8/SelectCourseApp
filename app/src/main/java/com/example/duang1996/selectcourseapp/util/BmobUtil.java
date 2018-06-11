@@ -1,7 +1,6 @@
-package com.example.duang1996.selectcourseapp;
+package com.example.duang1996.selectcourseapp.util;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.example.duang1996.selectcourseapp.bean.Course;
 import com.example.duang1996.selectcourseapp.bean.Lesson;
@@ -150,7 +149,7 @@ public class BmobUtil {
                     result.addAll(object.getSelectedCourse());
                     c.countDown();
                 }else{
-                    Log.i("bmob","失败2：" + e.getMessage()+","+e.getErrorCode());
+                    e.printStackTrace();
                 }
             }
         });
@@ -180,7 +179,7 @@ public class BmobUtil {
                     result.addAll(object.getSelectingCourse());
                     c.countDown();
                 }else{
-                    Log.i("bmob","失败3：" + e.getMessage()+","+e.getErrorCode());
+                    e.printStackTrace();
                 }
             }
         });
@@ -211,7 +210,7 @@ public class BmobUtil {
                     result.add(object);
                     c.countDown();
                 }else{
-                    Log.i("bmob","失败4：" + e.getMessage()+","+e.getErrorCode());
+                    e.printStackTrace();
                 }
             }
         });
