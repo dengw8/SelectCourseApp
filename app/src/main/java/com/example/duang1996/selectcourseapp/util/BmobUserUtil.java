@@ -3,6 +3,7 @@ package com.example.duang1996.selectcourseapp.util;
 import android.text.TextUtils;
 
 import com.example.duang1996.selectcourseapp.bean.Student;
+import com.example.duang1996.selectcourseapp.global.Global;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -17,7 +18,8 @@ import cn.bmob.v3.listener.SaveListener;
 
 public class BmobUserUtil {
 
-    /* 单例模式获取bmobUser操作相关的实例
+    /*
+     * 单例模式获取bmobUser操作相关的实例
      * 由于bmobUser没涉及到多线程操作
      * 因此'懒汉'式的单例模式满足
      */
@@ -55,6 +57,7 @@ public class BmobUserUtil {
     }
 
     public void logout() {
+        Global.resetGlobal();
         BmobUser.logOut();
     }
 }

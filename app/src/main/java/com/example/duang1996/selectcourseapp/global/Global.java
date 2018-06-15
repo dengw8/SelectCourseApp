@@ -146,4 +146,11 @@ public class Global {
     public static int getLessonListSize() {
         return lessonList.size();
     }
+
+    public static void resetGlobal() {
+        selectableCourseList.clear();
+        selectedCourseList.clear();
+        selectingCourseList.clear();
+        pos = -1;
+    }
 }
